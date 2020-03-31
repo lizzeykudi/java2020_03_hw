@@ -1,4 +1,4 @@
-package hw01_gradle;
+package hw;
 
 import com.google.common.collect.Lists;
 
