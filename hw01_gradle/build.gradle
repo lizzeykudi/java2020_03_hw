@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'java2020_03'
+group 'java2020_03_hw'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -25,7 +25,3 @@ jar {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
-
-
-
-
