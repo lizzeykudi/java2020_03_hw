@@ -1,3 +1,4 @@
 rootProject.name = 'java2020_03_hw'
 include 'hw01_gradle'
+include 'hw03_annotations'
 
