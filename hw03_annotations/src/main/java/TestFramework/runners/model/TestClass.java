@@ -23,9 +23,7 @@ public class TestClass {
     protected void scanAnnotatedMethods() {
 
 
-
         Method[] declaredMethods = clazz.getDeclaredMethods();
-
 
 
         for (Method method : declaredMethods) {
