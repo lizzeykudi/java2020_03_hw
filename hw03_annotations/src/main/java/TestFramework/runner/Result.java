@@ -2,8 +2,8 @@ package TestFramework.runner;
 
 public class Result {
 
-    int total=0;
-    int fail=0;
+    private int total=0;
+    private int fail=0;
 
     public int getTotal() {
         return total;

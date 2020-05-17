@@ -13,8 +13,6 @@ import java.util.List;
 public class Runner {
 
     private final TestClass testClass;
-    List<Method> beforeMethods;
-    List<Method> afterMethods;
     Result result = new Result();
 
     public Runner(Class<?> testClass) {
@@ -22,18 +20,18 @@ public class Runner {
     }
 
     public Result run() {
-        beforeMethods = testClass.getAnnotatedMethods(Before.class);
+        List<Method> beforeMethods = this.testClass.getAnnotatedMethods(Before.class);
         List<Method> testMethods = testClass.getAnnotatedMethods(Test.class);
-        afterMethods = testClass.getAnnotatedMethods(After.class);
+        List<Method> afterMethods = this.testClass.getAnnotatedMethods(After.class);
         testMethods.forEach(method -> {
             System.out.println(">>>> run " + method.getName());
-            runShedule(prepareShedule(method));
+            runShedule(prepareShedule(method, beforeMethods, afterMethods));
         });
         System.out.println("\n\n");
         return result;
     }
 
-    public List<Method> prepareShedule(Method method) {
+    public List<Method> prepareShedule(Method method, List<Method> beforeMethods, List<Method> afterMethods) {
         List<Method> annotatedMethods = new ArrayList<>();
         annotatedMethods.addAll(beforeMethods);
         annotatedMethods.add(method);
@@ -42,10 +40,19 @@ public class Runner {
     }
 
     public void runShedule(List<Method> annotatedMethods) {
+        Object instance = null;
+        try {
+            instance = testClass.getClazz().newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         result.setTotal(result.getTotal() + 1);
         for (Method method : annotatedMethods) {
             try {
-                method.invoke(testClass.getClazz().newInstance());
+                method.invoke(instance);
                 System.out.println("v " + method.getName());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -54,8 +61,6 @@ public class Runner {
                 System.out.println("x " + method.getName());
                 e.printStackTrace();
                 return;
-            } catch (InstantiationException e) {
-                e.printStackTrace();
             }
         }
 
