@@ -7,21 +7,9 @@ import java.util.*;
 
 public class TestClass {
 
-    private final Class<?> clazz;
-    private Map<Class<? extends Annotation>, List<Method>> methodsForAnnotatios = new HashMap<>();
 
-    public TestClass(Class<?> clazz) {
-        this.clazz = clazz;
-        scanAnnotatedMethods();
-    }
-
-    public List<Method> getAnnotatedMethods(
-            Class<? extends Annotation> annotationClass) {
-        return methodsForAnnotatios.get(annotationClass);
-    }
-
-    protected void scanAnnotatedMethods() {
-
+    protected static List<Method> scanAnnotatedMethods(Class<?> clazz, Class<? extends Annotation> annotationClass) {
+         Map<Class<? extends Annotation>, List<Method>> methodsForAnnotatios = new HashMap<>();
 
         Method[] declaredMethods = clazz.getDeclaredMethods();
 
@@ -40,9 +28,6 @@ public class TestClass {
 
             }
         }
-    }
-
-    public Class<?> getClazz() {
-        return clazz;
+        return methodsForAnnotatios.get(annotationClass);
     }
 }

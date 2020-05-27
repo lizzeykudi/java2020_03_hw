@@ -3,7 +3,9 @@ package proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Ioc {
 
@@ -18,17 +20,19 @@ class Ioc {
 
     static class DemoInvocationHandler implements InvocationHandler {
         private final MyClassInterface myClass;
-        List<Method> annotatedMethods;
+        HashSet<String> annotatedMethodNames;
 
         DemoInvocationHandler(MyClassInterface myClass) {
             this.myClass = myClass;
-            this.annotatedMethods = new TestClass(myClass.getClass()).getAnnotatedMethods(Log.class);
+            List<Method> annotatedMethods = TestClass.scanAnnotatedMethods(myClass.getClass(), Log.class);
+            this.annotatedMethodNames = annotatedMethods.stream().map(Method::getName).collect(Collectors.toCollection(HashSet::new));
+
         }
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-            if (annotatedMethods!=null&&annotatedMethods.stream().anyMatch(method1 -> method1.getName().equals(method.getName()))) {
+            if (annotatedMethodNames!=null&&annotatedMethodNames.contains(method.getName())) {
                 System.out.println("invoking method:" + method);
             }
             return method.invoke(myClass, args);
