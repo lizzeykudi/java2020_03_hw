@@ -20,7 +20,7 @@ class MyGsonTest {
 
         Gson gson = new Gson();
         AnyObject obj2 = gson.fromJson(json, AnyObject.class);
-        assertEquals(obj, obj2);
+        assertEquals(gson.toJson(obj), myGson.toJson(obj));
     }
 
     @Test
@@ -40,5 +40,21 @@ class MyGsonTest {
         assertEquals(gson.toJson('b'), myGson.toJson('b'));
         assertEquals(gson.toJson(new int[] {1, 2, 3}), myGson.toJson(new int[] {1, 2, 3}));
         assertEquals(gson.toJson(Collections.singletonList(7)), myGson.toJson(Collections.singletonList(7)));
+    }
+
+    @Test
+    public void test2() throws IllegalAccessException {
+        AnyObject2 obj = new AnyObject2();
+
+        MyGson myGson = new MyGson();
+        Gson gson = new Gson();
+
+        String json = myGson.toJson(obj);
+        String gJson = gson.toJson(obj);
+
+        System.out.println(json);
+        System.out.println(gJson);
+
+        assertEquals(gJson, json);
     }
 }

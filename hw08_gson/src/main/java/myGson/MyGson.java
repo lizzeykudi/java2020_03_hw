@@ -1,10 +1,9 @@
 package myGson;
 
-import com.google.common.collect.Iterables;
-
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 
 public class MyGson {
@@ -20,7 +19,12 @@ public class MyGson {
             return obj.toString();
         }
         if (obj instanceof Collection) {
-            return Iterables.toString((Iterable<?>) obj);
+            StringBuilder stringBuilder = new StringBuilder("[");
+            for(Object o : (Collection)obj) {
+                stringBuilder.append(toJson(o)+",");
+            }
+            if (stringBuilder.toString().length()<2) {return "[]";}
+            return stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1) + "]";
         }
         if (obj.getClass().isArray()) {
             return arrayAsString(obj);
@@ -29,12 +33,14 @@ public class MyGson {
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
-            String fieldName = field.getName();
-            Object fieldValue = toJson(field.get(obj));
-            stringBuilder.append("\"" + fieldName + "\":");
-            stringBuilder.append(fieldValue + ",");
-
+            if (!Modifier.toString(field.getModifiers()).contains("transient")&&!Modifier.toString(field.getModifiers()).contains("static")) {
+                String fieldName = field.getName();
+                Object fieldValue = toJson(field.get(obj));
+                stringBuilder.append("\"" + fieldName + "\":");
+                stringBuilder.append(fieldValue + ",");
+            }
         }
+        if (stringBuilder.toString().length()<2) {return "{}";}
         return stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1) + "}";
     }
 
@@ -43,6 +49,7 @@ public class MyGson {
         for (int i = 0; i < Array.getLength(obj); i++) {
             stringBuilder.append(Array.get(obj, i) + ",");
         }
+        if (stringBuilder.toString().length()<2) {return "[]";}
         return stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1) + "]";
     }
 
