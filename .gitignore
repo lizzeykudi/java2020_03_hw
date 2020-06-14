@@ -25,4 +25,6 @@ gradle-app.setting
 *.tar.gz
 *.rar
 
+*.iml
+
 
