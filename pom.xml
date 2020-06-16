@@ -12,8 +12,6 @@
         <module>hw02_arrayList</module>
         <module>hw03_annotation</module>
         <module>hw05_log</module>
-        <module>hw07_patterns</module>
-        <module>hw04_garbadge_collector</module>
     </modules>
 
 
