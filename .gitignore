@@ -27,4 +27,6 @@ gradle-app.setting
 
 *.iml
 
+**/target/
+
 
