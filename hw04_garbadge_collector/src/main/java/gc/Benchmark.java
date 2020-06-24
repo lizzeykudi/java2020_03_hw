@@ -1,6 +1,8 @@
 package gc;
 
-class Benchmark implements BenchmarkMBean {
+import java.time.LocalTime;
+
+class Benchmark implements BenchmarkMBean, Runnable {
     private final int loopCounter;
     private volatile int size = 0;
 
@@ -8,14 +10,25 @@ class Benchmark implements BenchmarkMBean {
         this.loopCounter = loopCounter;
     }
 
-    void run() throws InterruptedException {
-        for (int idx = 0; idx < loopCounter; idx++) {
-            int local = size;
-            Object[] array = new Object[local];
-            for (int i = 0; i < local; i++) {
-                array[i] = new String(new char[0]);
+    @Override
+    public void run() {
+        try {
+            for (int idx = 0; idx < loopCounter; idx++) {
+                int local = size;
+                Object[] array = new Object[local];
+                for (int i = 0; i < local; i++) {
+                    array[i] = new String(new char[0]);
+                }
+                try {
+                    Thread.sleep(10); //Label_1
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            Thread.sleep(10); //Label_1
+        }catch (OutOfMemoryError e) {
+            System.out.println(e);
+            System.out.println(LocalTime.now());
+            System.exit(1);
         }
     }
 
