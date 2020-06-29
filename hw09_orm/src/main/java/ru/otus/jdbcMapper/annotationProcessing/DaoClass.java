@@ -1,5 +1,7 @@
 package ru.otus.jdbcMapper.annotationProcessing;
 
+import com.google.gson.Gson;
+import ru.otus.core.dao.UserDaoException;
 import ru.otus.jdbcMapper.annotation.Id;
 
 import java.lang.annotation.Annotation;
@@ -55,12 +57,64 @@ public class DaoClass {
 
     }
 
+    public void setIdValue(Object o, long idValue) {
+        idField.setAccessible(true);
+        try {
+            idField.set(o, idValue);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getIdFieldName() {
+        return idField.getName();
+
+    }
+
+    public long getIdFieldValue() {
+        idField.setAccessible(true);
+        try {
+            return (long)idField.get(object);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+throw new RuntimeException("expected id");
+    }
+
     public List<Object> getValues() {
         return getValues(fields);
     }
 
     public List<Object> getValuesWithoutId() {
         return getValues(getFieldsWithoutId());
+    }
+
+    public List<Object> getValuesForUpdate() {
+        List<Object> objects = new ArrayList<>();
+        //objects.add(null);
+        for (Field field : getFieldsWithoutId()) {
+            try {
+                field.setAccessible(true);
+                objects.add(field.get(object));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return objects;
+    }
+
+    public List<Object> getFieldNamesAndValues() {
+        List<Object> objects = new ArrayList<>();
+        for (Field field : getFieldsWithoutId()) {
+            try {
+                field.setAccessible(true);
+                objects.add(field.getName());
+                objects.add(field.get(object));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return objects;
     }
 
     private List<Object> getValues(List<Field> fields) {
@@ -77,23 +131,37 @@ public class DaoClass {
         return objects;
     }
 
-    public Object getObjectFromResultSet(ResultSet resultSet, Class clazz) {
+    public Optional getObjectFromResultSet(ResultSet resultSet, Class clazz) {
         try {
-            Object instance = clazz.newInstance();
             if (resultSet.next()) {
+                String gsonString = "{";
                 for (Field field : fields) {
-                    String value = resultSet.getString(field.getName());
-                    field.set(instance, value);
+                    String name = field.getName();
+                    String value = resultSet.getString(name);
+                    gsonString += "\"" + name + "\":";
+                    gsonString += value + ",";
+//                    Class<?> type = field.getType();
+//                    Object cast = type.cast(value);
+//
+//                    field.set(instance, type.cast(value));
                 }
+                gsonString = gsonString.substring(0, gsonString.length() - 1) + "}";
+                return Optional.of(new Gson().fromJson(gsonString, clazz));
             }
-            return instance;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        throw new RuntimeException();
+        return null;
+    }
+
+    public boolean getBooleanFromResultSet(ResultSet resultSet, Class clazz) {
+        try {
+            if (resultSet.next()) {
+          return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
     }
 }

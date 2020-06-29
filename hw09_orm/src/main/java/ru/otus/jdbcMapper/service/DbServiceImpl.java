@@ -36,6 +36,40 @@ public class DbServiceImpl<T> implements DbService<T>{
     }
 
     @Override
+    public void insertOrUpdate(T t) {
+        try (var sessionManager = jdbcMapper.getSessionManager()) {
+            sessionManager.beginSession();
+            try {
+                jdbcMapper.insertOrUpdate(t);
+                sessionManager.commitSession();
+
+                logger.info("createdOrUpdate user: {}", t);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                sessionManager.rollbackSession();
+                throw new DbServiceException(e);
+            }
+        }
+    }
+
+    @Override
+    public void update(T t) {
+        try (var sessionManager = jdbcMapper.getSessionManager()) {
+            sessionManager.beginSession();
+            try {
+                jdbcMapper.update(t);
+                sessionManager.commitSession();
+
+                logger.info("updated user: {}", t);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                sessionManager.rollbackSession();
+                throw new DbServiceException(e);
+            }
+        }
+    }
+
+    @Override
     public Optional<T> get(long id, Class<T> clazz) {
         try (var sessionManager = jdbcMapper.getSessionManager()) {
             sessionManager.beginSession();

@@ -1,7 +1,6 @@
 package ru.otus.jdbc;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Savepoint;
@@ -32,6 +31,22 @@ public class DbExecutorImpl<T> implements DbExecutor<T> {
                 rs.next();
                 return rs.getInt(1);
             }
+        } catch (SQLException ex) {
+            connection.rollback(savePoint);
+            logger.error(ex.getMessage(), ex);
+            throw ex;
+        }
+    }
+
+    @Override
+    public void executeUpdate(Connection connection, String sql, List<Object> params) throws SQLException {
+        Savepoint savePoint = connection.setSavepoint("savePointName");
+
+        try (var pst = connection.prepareStatement(sql)) {
+            for (int idx = 0; idx < params.size(); idx++) {
+                pst.setObject(idx + 1, params.get(idx));
+            }
+            pst.executeUpdate();
         } catch (SQLException ex) {
             connection.rollback(savePoint);
             logger.error(ex.getMessage(), ex);
