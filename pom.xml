@@ -13,6 +13,7 @@
         <module>hw03_annotation</module>
         <module>hw05_log</module>
         <module>hw08_gson</module>
+        <module>hw09_orm</module>
     </modules>
 
 
