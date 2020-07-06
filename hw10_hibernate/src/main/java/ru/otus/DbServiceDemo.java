@@ -35,13 +35,14 @@ public class DbServiceDemo {
         phones.add(phone);
         user.setPhones(phones);
         long id = dbServiceUser.saveUser(user);
-        Optional<User> mayBeCreatedUser = dbServiceUser.getUser(id);
+        //Optional<User> mayBeCreatedUser = dbServiceUser.getUser(id);
 
-        id = dbServiceUser.saveUser(new User(2L, "А! Нет. Это же совсем не Вася"));
-        Optional<User> mayBeUpdatedUser = dbServiceUser.getUser(id);
+        //id = dbServiceUser.saveUser(new User(2L, "А! Нет. Это же совсем не Вася"));
 
-        outputUserOptional("Created user", mayBeCreatedUser);
-        outputUserOptional("Updated user", mayBeUpdatedUser);
+        //Optional<User> mayBeUpdatedUser = dbServiceUser.getUser(id);
+
+        //outputUserOptional("Created user", mayBeCreatedUser);
+        //outputUserOptional("Updated user", mayBeUpdatedUser);
     }
 
     private static void outputUserOptional(String header, Optional<User> mayBeUser) {

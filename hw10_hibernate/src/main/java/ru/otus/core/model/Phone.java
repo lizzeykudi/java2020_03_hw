@@ -2,18 +2,18 @@ package ru.otus.core.model;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name="phones")
 @Table(name = "phones")
 public class Phone {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
 
     @Column
     private String number;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
