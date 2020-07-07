@@ -39,4 +39,16 @@ public class MyCache<K, V> implements HwCache<K, V> {
             listeners.remove(softReferenceListener.get());
         }
     }
+
+    @Override
+    public String toString() {
+        return "MyCache{" +
+                "cache=" + cache +
+                '}';
+    }
+
+    @Override
+    public int getCacheSize() {
+        return cache.size();
+    }
 }

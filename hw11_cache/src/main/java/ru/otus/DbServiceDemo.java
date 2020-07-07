@@ -8,6 +8,7 @@ import ru.otus.core.model.Address;
 import ru.otus.core.model.Phone;
 import ru.otus.core.model.User;
 import ru.otus.core.service.DBServiceUser;
+import ru.otus.core.service.DbServiceUserCache;
 import ru.otus.core.service.DbServiceUserImpl;
 import ru.otus.hibernate.HibernateUtils;
 import ru.otus.hibernate.dao.UserDaoHibernate;
@@ -34,20 +35,32 @@ public class DbServiceDemo {
         List<Phone> phones = new ArrayList<>();
         phones.add(phone);
         user.setPhones(phones);
+
+
+        /*DbServiceUserCache dbServiceUserCache = new DbServiceUserCache(userDao);
+        for (int i = 0; i < 1000; i++) {
+            dbServiceUserCache.saveUser(new User(i, "" + i));
+        }
+
+        System.out.println(dbServiceUserCache.cache.getCacheSize()); // 148 */
+
+
         long id = dbServiceUser.saveUser(user);
-        //Optional<User> mayBeCreatedUser = dbServiceUser.getUser(id);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Optional<User> mayBeCreatedUser = dbServiceUser.getUser(id);
+        }
+        System.out.println("time : " + (double) (System.currentTimeMillis() - start)); //258
 
-        //id = dbServiceUser.saveUser(new User(2L, "А! Нет. Это же совсем не Вася"));
+        dbServiceUser = new DbServiceUserCache(userDao);
+        id = dbServiceUser.saveUser(user);
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 100; i++) {
+            Optional<User> mayBeCreatedUser = dbServiceUser.getUser(id);
+        }
+        System.out.println("time : " + (double) (System.currentTimeMillis() - start)); //1
 
-        //Optional<User> mayBeUpdatedUser = dbServiceUser.getUser(id);
-
-        //outputUserOptional("Created user", mayBeCreatedUser);
-        //outputUserOptional("Updated user", mayBeUpdatedUser);
     }
 
-    private static void outputUserOptional(String header, Optional<User> mayBeUser) {
-        System.out.println("-----------------------------------------------------------");
-        System.out.println(header);
-        mayBeUser.ifPresentOrElse(System.out::println, () -> logger.info("User not found"));
-    }
+
 }
