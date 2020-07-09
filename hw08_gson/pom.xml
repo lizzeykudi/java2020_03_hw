@@ -9,22 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>hw08_gson</artifactId>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>12</source>
-                    <target>12</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <properties>
-        <maven.compiler.target>12</maven.compiler.target>
-        <maven.compiler.source>12</maven.compiler.source>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.google.code.gson</groupId>
