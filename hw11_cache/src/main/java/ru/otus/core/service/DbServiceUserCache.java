@@ -10,7 +10,7 @@ import java.util.Optional;
 public class DbServiceUserCache extends DbServiceUserImpl{
 
     public HwCache<Long, User> cache = new MyCache();
-    public DbServiceUserCache(UserDao userDao) {
+    public DbServiceUserCache(UserDao userDao, HwCache<Long, User> cache) {
         super(userDao);
     }
 
