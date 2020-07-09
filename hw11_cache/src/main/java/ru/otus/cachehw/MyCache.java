@@ -10,16 +10,24 @@ public class MyCache<K, V> implements HwCache<K, V> {
 
     private WeakHashMap<K, V> cache = new WeakHashMap();
 
-    List<SoftReference<HwListener>> listeners = new ArrayList<>();
+    private List<SoftReference<HwListener>> listeners = new ArrayList<>();
 
     @Override
     public void put(K key, V value) {
         cache.put(key, value);
+        notifyAllListeners(key, value, "put");
     }
 
     @Override
     public void remove(K key) {
-        cache.remove(key);
+        V removedValue = cache.remove(key);
+        notifyAllListeners(key, removedValue, "remove");
+    }
+
+    private void notifyAllListeners(K key, V value, String action) {
+        listeners.forEach(ref -> {
+            if (ref.get()!=null) {ref.get().notify(key,value,"put");}
+        });
     }
 
     @Override

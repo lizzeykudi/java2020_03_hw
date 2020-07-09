@@ -3,6 +3,9 @@ package ru.otus;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.otus.cachehw.HwCache;
+import ru.otus.cachehw.MyCache;
+import ru.otus.cachehw.MyListener;
 import ru.otus.core.dao.UserDao;
 import ru.otus.core.model.Address;
 import ru.otus.core.model.Phone;
@@ -52,7 +55,9 @@ public class DbServiceDemo {
         }
         System.out.println("time : " + (double) (System.currentTimeMillis() - start)); //258
 
-        dbServiceUser = new DbServiceUserCache(userDao);
+        HwCache<Long, User> cache = new MyCache();
+        cache.addListener(new MyListener());
+        dbServiceUser = new DbServiceUserCache(userDao, cache);
         id = dbServiceUser.saveUser(user);
         start = System.currentTimeMillis();
         for (int i = 0; i < 100; i++) {

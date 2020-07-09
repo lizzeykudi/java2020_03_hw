@@ -9,9 +9,10 @@ import java.util.Optional;
 
 public class DbServiceUserCache extends DbServiceUserImpl{
 
-    public HwCache<Long, User> cache = new MyCache();
+    private HwCache<Long, User> cache;
     public DbServiceUserCache(UserDao userDao, HwCache<Long, User> cache) {
         super(userDao);
+        this.cache = cache;
     }
 
     @Override
