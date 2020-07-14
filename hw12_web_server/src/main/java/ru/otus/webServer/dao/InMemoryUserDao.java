@@ -34,4 +34,14 @@ public class InMemoryUserDao implements UserDao {
     public Optional<User> findByLogin(String login) {
         return users.values().stream().filter(v -> v.getLogin().equals(login)).findFirst();
     }
+
+    @Override
+    public List<ru.otus.hibernate.core.model.User> getAllUsers() {
+        return null;
+    }
+
+    @Override
+    public void saveUser(ru.otus.hibernate.core.model.User user) {
+
+    }
 }

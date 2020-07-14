@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.LoginService;
+import ru.otus.webServer.dao.HibernateUserDao;
 import ru.otus.webServer.dao.InMemoryUserDao;
 import ru.otus.webServer.dao.UserDao;
 import ru.otus.webServer.helpers.FileSystemHelper;
@@ -31,7 +32,7 @@ public class WebServerWithBasicSecurityDemo {
     private static final String REALM_NAME = "AnyRealm";
 
     public static void main(String[] args) throws Exception {
-        UserDao userDao = new InMemoryUserDao();
+        UserDao userDao = new HibernateUserDao();
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
 

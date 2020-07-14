@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import ru.otus.hibernate.cachehw.HwCache;
 import ru.otus.hibernate.cachehw.MyCache;
 import ru.otus.hibernate.cachehw.MyListener;
-import ru.otus.hibernate.core.dao.UserDao;
 import ru.otus.hibernate.core.model.Address;
 import ru.otus.hibernate.core.model.Phone;
 import ru.otus.hibernate.core.model.User;
@@ -16,6 +15,8 @@ import ru.otus.hibernate.core.service.DbServiceUserImpl;
 import ru.otus.hibernate.hibernate.HibernateUtils;
 import ru.otus.hibernate.hibernate.dao.UserDaoHibernate;
 import ru.otus.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
+import ru.otus.webServer.dao.HibernateUserDao;
+import ru.otus.webServer.dao.UserDao;
 import ru.otus.webServer.services.TemplateProcessor;
 
 
@@ -40,24 +41,17 @@ public class AllUsersServlet extends HttpServlet {
 
 
     private final TemplateProcessor templateProcessor;
-
-    SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml", User.class, Address.class, Phone.class);
-    SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
-    UserDao userDao = new UserDaoHibernate(sessionManager);
-    DbServiceUserCache dbServiceUserCache = new DbServiceUserCache(userDao, new MyCache<Long, User>());
-
+    private final UserDao userDao = new HibernateUserDao();
     public AllUsersServlet(TemplateProcessor templateProcessor) {
         this.templateProcessor = templateProcessor;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
-        fillDB();
         Map<String, Object> paramsMap = new HashMap<>();
-        List list = new ArrayList();
-        list.add("lol");
-        paramsMap.put(TEMPLATE_ATTR_RANDOM_USER, getAllUsers());
-        //userDao.findRandomUser().ifPresent(randomUser -> paramsMap.put(TEMPLATE_ATTR_RANDOM_USER, list));
+
+        paramsMap.put(TEMPLATE_ATTR_RANDOM_USER, userDao.getAllUsers());
+
         response.setContentType("text/html");
         response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
 
@@ -68,20 +62,8 @@ public class AllUsersServlet extends HttpServlet {
         doGet(req, resp);
     }
 
-    private void fillDB() {
-
-
-        for (int i = 0; i < 10; i++) {
-            dbServiceUserCache.saveUser(new User(i, "" + i));
-        }
 
 
 
-
-    }
-
-    private List<User> getAllUsers() {
-        return dbServiceUserCache.getAllUsers();
-    }
 
 }
