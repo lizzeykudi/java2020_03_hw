@@ -2,8 +2,7 @@ package ru.otus.webServer.servlet;
 
 import ru.otus.hibernate.core.model.Address;
 import ru.otus.hibernate.core.model.User;
-import ru.otus.webServer.dao.HibernateUserDao;
-import ru.otus.webServer.dao.UserDao;
+import ru.otus.hibernate.core.service.DbServiceUserCache;
 import ru.otus.webServer.services.TemplateProcessor;
 
 import javax.servlet.ServletException;
@@ -18,15 +17,15 @@ import java.util.Map;
 public class AddUserServlet extends HttpServlet {
 
     private static final String USERS_PAGE_TEMPLATE = "addPerson.flt";
-    private static final String TEMPLATE_ATTR_RANDOM_USER = "randomUser";
 
 
     private final TemplateProcessor templateProcessor;
-    private final UserDao userDao = new HibernateUserDao();
+    private final DbServiceUserCache userDao;
 
 
-    public AddUserServlet(TemplateProcessor templateProcessor) {
+    public AddUserServlet(TemplateProcessor templateProcessor, DbServiceUserCache userDao) {
         this.templateProcessor = templateProcessor;
+        this.userDao = userDao;
     }
 
     @Override
@@ -34,7 +33,6 @@ public class AddUserServlet extends HttpServlet {
             throws ServletException, IOException {
 
         Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put(TEMPLATE_ATTR_RANDOM_USER, userDao.getAllUsers());
 
         response.setContentType("text/html");
         response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));

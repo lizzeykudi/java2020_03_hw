@@ -7,24 +7,22 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import ru.otus.webServer.dao.UserDao;
+import ru.otus.hibernate.core.service.DbServiceUserCache;
 import ru.otus.webServer.helpers.FileSystemHelper;
 import ru.otus.webServer.services.TemplateProcessor;
 import ru.otus.webServer.servlet.AddUserServlet;
 import ru.otus.webServer.servlet.AllUsersServlet;
-import ru.otus.webServer.servlet.UsersApiServlet;
-import ru.otus.webServer.servlet.UsersServlet;
 
 public class UsersWebServerSimple implements UsersWebServer {
     private static final String START_PAGE_NAME = "index.html";
     private static final String COMMON_RESOURCES_DIR = "static";
 
-    private final UserDao userDao;
+    private final DbServiceUserCache userDao;
     private final Gson gson;
     protected final TemplateProcessor templateProcessor;
     private final Server server;
 
-    public UsersWebServerSimple(int port, UserDao userDao, Gson gson, TemplateProcessor templateProcessor) {
+    public UsersWebServerSimple(int port, DbServiceUserCache userDao, Gson gson, TemplateProcessor templateProcessor) {
         this.userDao = userDao;
         this.gson = gson;
         this.templateProcessor = templateProcessor;
@@ -77,8 +75,8 @@ public class UsersWebServerSimple implements UsersWebServer {
 
     private ServletContextHandler createServletContextHandler() {
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        servletContextHandler.addServlet(new ServletHolder(new AllUsersServlet(templateProcessor)), "/users");
-        servletContextHandler.addServlet(new ServletHolder(new AddUserServlet(templateProcessor)), "/user");
+        servletContextHandler.addServlet(new ServletHolder(new AllUsersServlet(templateProcessor, userDao)), "/users");
+        servletContextHandler.addServlet(new ServletHolder(new AddUserServlet(templateProcessor, userDao)), "/user");
         return servletContextHandler;
     }
 }
