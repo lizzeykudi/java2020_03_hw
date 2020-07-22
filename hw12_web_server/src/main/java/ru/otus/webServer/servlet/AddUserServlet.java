@@ -5,6 +5,7 @@ import ru.otus.hibernate.core.model.User;
 import ru.otus.hibernate.core.service.DbServiceUserCache;
 import ru.otus.webServer.services.TemplateProcessor;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class AddUserServlet extends HttpServlet {
 
-    private static final String USERS_PAGE_TEMPLATE = "addPerson.flt";
+    private static final String ADD_USER_PAGE_TEMPLATE = "addPerson.flt";
 
 
     private final TemplateProcessor templateProcessor;
@@ -35,7 +36,7 @@ public class AddUserServlet extends HttpServlet {
         Map<String, Object> paramsMap = new HashMap<>();
 
         response.setContentType("text/html");
-        response.getWriter().println(templateProcessor.getPage(USERS_PAGE_TEMPLATE, paramsMap));
+        response.getWriter().println(templateProcessor.getPage(ADD_USER_PAGE_TEMPLATE, paramsMap));
 
     }
 
@@ -56,6 +57,10 @@ public class AddUserServlet extends HttpServlet {
 
 
         }
+
+        RequestDispatcher dispatcher = getServletContext()
+                .getRequestDispatcher("/users");
+        dispatcher.forward(request, response);
 
 
     }
