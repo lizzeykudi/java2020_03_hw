@@ -1,13 +1,11 @@
 package ru.otus.hibernate.core.service;
 
-import org.springframework.stereotype.Service;
 import ru.otus.hibernate.cachehw.HwCache;
 import ru.otus.hibernate.core.dao.UserDao;
 import ru.otus.hibernate.core.model.User;
 
 import java.util.Optional;
 
-@Service
 public class DbServiceUserCache extends DbServiceUserImpl{
 
     private HwCache<Long, User> cache;

@@ -1,6 +1,5 @@
 package ru.otus.hibernate.cachehw;
 
-import org.springframework.stereotype.Component;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.WeakHashMap;
 
-@Component
 public class MyCache<K, V> implements HwCache<K, V> {
 
     private WeakHashMap<K, V> cache = new WeakHashMap();

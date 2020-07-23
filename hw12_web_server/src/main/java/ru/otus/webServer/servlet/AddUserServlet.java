@@ -58,9 +58,7 @@ public class AddUserServlet extends HttpServlet {
 
         }
 
-        RequestDispatcher dispatcher = getServletContext()
-                .getRequestDispatcher("/users");
-        dispatcher.forward(request, response);
+        response.sendRedirect("/users");
 
 
     }

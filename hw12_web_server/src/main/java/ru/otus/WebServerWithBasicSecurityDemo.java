@@ -43,9 +43,9 @@ public class WebServerWithBasicSecurityDemo {
         SessionFactory sessionFactory = HibernateUtils.buildSessionFactory("hibernate.cfg.xml", User.class, Address.class, Phone.class);
         SessionManagerHibernate sessionManager = new SessionManagerHibernate(sessionFactory);
         UserDao userDao = new UserDaoHibernate(sessionManager);
-        DbServiceFill dbServiceFill = new DbServiceFill(userDao);
-        dbServiceFill.fillDB();
         DbServiceUserCache dbServiceUserCache = new DbServiceUserCache(userDao, new MyCache<Long, User>());
+        DbServiceFill dbServiceFill = new DbServiceFill(dbServiceUserCache);
+        dbServiceFill.fillDB();
 
         Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
         TemplateProcessor templateProcessor = new TemplateProcessorImpl(TEMPLATES_DIR);
