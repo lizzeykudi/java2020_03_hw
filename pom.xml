@@ -20,7 +20,6 @@
         <module>hw08_gson</module>
         <module>hw09_orm</module>
         <module>hw11_cache</module>
-        <module>hw13_IoC</module>
     </modules>
 
 

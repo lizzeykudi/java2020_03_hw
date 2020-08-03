@@ -1,0 +1,15 @@
+<html>
+<head><title>ViralPatel.net - FreeMarker Hello World</title>
+
+<body>
+  <form name="user" action="user" method="post">
+  	Firstname: <input type="text" name="name" />	<br/>
+  	Lastname: <input type="text" name="address" />		<br/>
+  	<input type="submit" value="Save" />
+  </form>
+
+  <a href="/users">All Users</a>
+
+
+</body>
+</html>
