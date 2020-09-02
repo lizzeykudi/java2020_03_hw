@@ -70,6 +70,7 @@ public class UserController {
     @SendTo("/topic/greetings")
     public User greeting(User user) throws Exception {
         usersService.saveUser(user);
+        frontendService.getUserData(user.getId(), data -> {user.setId(data.getUserId());});
         return user;
     }
 }
