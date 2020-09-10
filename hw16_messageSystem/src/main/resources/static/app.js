@@ -7,7 +7,7 @@ function connect() {
     stompClient.connect({}, function (frame) {
         // setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', (greeting) => showGreeting(JSON.parse(greeting.body).id));
+        stompClient.subscribe('/topic/greetings', (greeting) => showGreeting(JSON.parse(greeting.body).name));
     });
 }
 
@@ -15,14 +15,7 @@ function connect() {
 
 connect();
 
-// const connect = () => {
-//   stompClient = Stomp.over(new SockJS('/gs-guide-websocket'));
-//   stompClient.connect({}, (frame) => {
-//     setConnected(true);
-//     console.log('Connected: ' + frame);
-//     stompClient.subscribe('/topic/response.' + $("#roomId").val(), (greeting) => showGreeting(JSON.parse(greeting.body).messageStr));
-//   });
-// }
+
 
 const disconnect = () => {
     if (stompClient !== null) {
@@ -32,9 +25,9 @@ const disconnect = () => {
     console.log("Disconnected");
 }
 
-const showGreeting = (id) => {
+const showGreeting = (name) => {
     let tr = document.createElement("tr")
-    tr.innerHTML = "<td>" + id + "</td>"
+    tr.innerHTML = "<td>" + name + "</td>"
     document
         .getElementById("content")
         .appendChild(tr)
@@ -48,10 +41,10 @@ function formSubmit() {
     addDevice(id);
 }
 
-function addDevice(id) {
+function addDevice(name) {
     var DeviceAction = {
         action: "add",
-        id: id,
+        name: name,
     };
     stompClient.send("/app/add", {}, JSON.stringify(DeviceAction));
 }

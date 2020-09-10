@@ -3,13 +3,9 @@ package ru.otus.controllers;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import ru.otus.db.hibernate.core.model.User;
 import ru.otus.messagesystem.HandlersStore;
 import ru.otus.messagesystem.HandlersStoreImpl;
@@ -27,11 +23,18 @@ import ru.otus.messagesystem.front.handlers.GetUserDataResponseHandler;
 import ru.otus.messagesystem.message.MessageType;
 import ru.otus.services.DbServiceUserCache;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static ru.otus.ApplConfig.DATE_TIME_FORMAT;
 
 @Controller
 public class UserController {
+
+    private final SimpMessagingTemplate template;
+    ConcurrentLinkedQueue<Long> queue = new ConcurrentLinkedQueue();
 
     private final DbServiceUserCache usersService;
     FrontendService frontendService;
@@ -39,7 +42,8 @@ public class UserController {
     private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
     private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
-    public UserController(DbServiceUserCache usersService) {
+    public UserController(SimpMessagingTemplate template, DbServiceUserCache usersService) {
+        this.template = template;
         this.usersService = usersService;
         init();
     }
@@ -59,7 +63,7 @@ public class UserController {
 
       MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME,
               messageSystem, requestHandlerFrontendStore, callbackRegistry);
-      frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
+      frontendService = new FrontendServiceImpl(usersService, frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
       messageSystem.addClient(frontendMsClient);
   }
 
@@ -68,9 +72,17 @@ public class UserController {
 
     @MessageMapping("/add")
     @SendTo("/topic/greetings")
-    public User greeting(User user) throws Exception {
-        usersService.saveUser(user);
-        frontendService.getUserData(user.getId(), data -> {user.setId(data.getUserId());});
-        return user;
+    public void greeting(User user) throws Exception {
+        queue.offer(frontendService.create(user));
+    }
+
+    @Scheduled(fixedDelay = 1000)
+    public void broadcastCurrentTime() {
+        Long id = queue.poll();
+        if (id!=null) {
+        User user = new User();
+        user.setId(id);
+        frontendService.getUserData(id, data -> {user.setName(data.getData());});
+        this.template.convertAndSend("/allUsers", user);}
     }
 }

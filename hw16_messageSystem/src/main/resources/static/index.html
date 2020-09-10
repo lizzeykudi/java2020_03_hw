@@ -7,7 +7,17 @@
     <script src="stomp.js"></script>
     <script src="app.js"></script>
 </head>
-<body>
+<body onload="getTime();">
+
+<script type="text/JavaScript">
+    function getTime() {
+        const stompClient = Stomp.over(new SockJS('/gs-guide-websocket'));
+        stompClient.connect({}, (frame) => {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/allUsers', (timeMsg) => document.getElementById("allUsers").innerHTML = timeMsg.body);
+        });
+    }
+</script>
 
 <div id="wrapper">
 
@@ -15,14 +25,14 @@
     <div id="addDevice">
         <form id="addDeviceForm">
             <h3>Add a new user</h3>
-            <span>Id: <input type="text" name="device_id" id="device_id"></span>
+            <span>Name: <input type="text" name="device_name" id="device_id"></span>
             <input type="button" class="button" value="Add" onclick=formSubmit()>
 
         </form>
     </div>
     <br />
     <h3>users:</h3>
-    <div id="content">
+    <div id="allUsers">
     </div>
 </div>
 
