@@ -82,7 +82,8 @@ public class UserController {
         if (id!=null) {
         User user = new User();
         user.setId(id);
-        frontendService.getUserData(id, data -> {user.setName(data.getData());});
-        this.template.convertAndSend("/allUsers", user);}
+        user.setName(frontendService.getUser(id).getName());
+
+        this.template.convertAndSend("/topic/allUsers", user);}
     }
 }

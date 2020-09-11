@@ -30,6 +30,11 @@ public class FrontendServiceImpl implements FrontendService {
     }
 
     @Override
+    public User getUser(long userId) {
+        return usersService.getUser(userId).get();
+    }
+
+    @Override
     public long create(User user) {
         return usersService.saveUser(user);
     }

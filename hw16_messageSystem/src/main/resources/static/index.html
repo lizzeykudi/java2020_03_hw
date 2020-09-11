@@ -14,7 +14,10 @@
         const stompClient = Stomp.over(new SockJS('/gs-guide-websocket'));
         stompClient.connect({}, (frame) => {
             console.log('Connected: ' + frame);
-            stompClient.subscribe('/allUsers', (timeMsg) => document.getElementById("allUsers").innerHTML = timeMsg.body);
+            stompClient.subscribe('/topic/allUsers', (timeMsg) => {
+                console.log("41",timeMsg);
+                document.getElementById("allUsers").innerHTML += "<div>"+timeMsg.body+"</div>"
+            });
         });
     }
 </script>
