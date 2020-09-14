@@ -8,6 +8,8 @@ import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageType;
 import ru.otus.services.DbServiceUserCache;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 
 public class FrontendServiceImpl implements FrontendService {
 
@@ -30,12 +32,11 @@ public class FrontendServiceImpl implements FrontendService {
     }
 
     @Override
-    public User getUser(long userId) {
-        return usersService.getUser(userId).get();
+    public void create(User user, MessageCallback<User> dataConsumer) {
+        Message outMsg = msClient.produceMessage(databaseServiceClientName, user,
+                MessageType.CREATE_USER, dataConsumer);
+        msClient.sendMessage(outMsg);
+        //usersService.saveUser(user);
     }
 
-    @Override
-    public long create(User user) {
-        return usersService.saveUser(user);
-    }
 }

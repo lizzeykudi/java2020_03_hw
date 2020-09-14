@@ -7,8 +7,6 @@ import ru.otus.messagesystem.client.MessageCallback;
 public interface FrontendService {
     void getUserData(long userId, MessageCallback<UserData> dataConsumer);
 
-    User getUser(long id);
-
-    long create(User user);
+    void create(User user, MessageCallback<User> dataConsumer);
 }
 

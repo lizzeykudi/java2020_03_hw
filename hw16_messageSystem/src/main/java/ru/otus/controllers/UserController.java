@@ -1,11 +1,15 @@
 package ru.otus.controllers;
 
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import ru.otus.ApplConfig;
 import ru.otus.db.hibernate.core.model.User;
 import ru.otus.messagesystem.HandlersStore;
 import ru.otus.messagesystem.HandlersStoreImpl;
@@ -16,6 +20,7 @@ import ru.otus.messagesystem.client.CallbackRegistryImpl;
 import ru.otus.messagesystem.client.MsClient;
 import ru.otus.messagesystem.client.MsClientImpl;
 import ru.otus.messagesystem.dbHandlers.DBServiceImpl;
+import ru.otus.messagesystem.dbHandlers.handlers.CreateUserRequestHandler;
 import ru.otus.messagesystem.dbHandlers.handlers.GetUserDataRequestHandler;
 import ru.otus.messagesystem.front.FrontendService;
 import ru.otus.messagesystem.front.FrontendServiceImpl;
@@ -54,6 +59,7 @@ public class UserController {
 
       HandlersStore requestHandlerDatabaseStore = new HandlersStoreImpl();
       requestHandlerDatabaseStore.addHandler(MessageType.USER_DATA, new GetUserDataRequestHandler(new DBServiceImpl()));
+      requestHandlerDatabaseStore.addHandler(MessageType.CREATE_USER, new CreateUserRequestHandler(new DBServiceImpl()));
       MsClient databaseMsClient = new MsClientImpl(DATABASE_SERVICE_CLIENT_NAME,
               messageSystem, requestHandlerDatabaseStore, callbackRegistry);
       messageSystem.addClient(databaseMsClient);
@@ -73,17 +79,14 @@ public class UserController {
     @MessageMapping("/add")
     @SendTo("/topic/greetings")
     public void greeting(User user) throws Exception {
-        queue.offer(frontendService.create(user));
+
+        frontendService.create(user, responseUser -> this.template.convertAndSend("/topic/allUsers", responseUser));
+
+
     }
 
-    @Scheduled(fixedDelay = 1000)
+    //@Scheduled(fixedDelay = 1000)
     public void broadcastCurrentTime() {
-        Long id = queue.poll();
-        if (id!=null) {
-        User user = new User();
-        user.setId(id);
-        user.setName(frontendService.getUser(id).getName());
 
-        this.template.convertAndSend("/topic/allUsers", user);}
     }
 }
