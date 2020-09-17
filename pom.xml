@@ -22,6 +22,11 @@
         <module>hw11_cache</module>
         <module>hw15_executors</module>
       <module>hw16_messageSystem</module>
+        <module>hw17_message_server</module>
+        <module>MessageServer</module>
+        <module>MessageClient</module>
+        <module>DBServer</module>
+        <module>MessageServer</module>
     </modules>
 
 
