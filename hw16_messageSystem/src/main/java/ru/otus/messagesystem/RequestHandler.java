@@ -1,7 +1,7 @@
 package ru.otus.messagesystem;
 
 
-import ru.otus.messagesystem.client.ResultDataType;
+import ru.otus.messagesystem.ResultDataType;
 import ru.otus.messagesystem.message.Message;
 
 import java.util.Optional;

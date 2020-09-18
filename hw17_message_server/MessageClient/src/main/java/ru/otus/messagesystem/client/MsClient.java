@@ -1,5 +1,6 @@
 package ru.otus.messagesystem.client;
 
+import ru.otus.messagesystem.ResultDataType;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageType;
 

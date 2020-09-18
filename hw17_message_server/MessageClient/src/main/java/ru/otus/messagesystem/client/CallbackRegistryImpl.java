@@ -1,5 +1,8 @@
 package ru.otus.messagesystem.client;
 
+import ru.otus.messagesystem.CallbackId;
+import ru.otus.messagesystem.ResultDataType;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

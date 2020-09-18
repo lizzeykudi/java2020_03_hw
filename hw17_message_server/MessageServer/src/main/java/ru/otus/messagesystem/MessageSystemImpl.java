@@ -2,20 +2,15 @@ package ru.otus.messagesystem;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.util.Pair;
-import ru.otus.messagesystem.client.MsClient;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageBuilder;
 
 import java.net.Socket;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 
 public final class MessageSystemImpl implements MessageSystem {
@@ -25,7 +20,7 @@ public final class MessageSystemImpl implements MessageSystem {
 
     private final AtomicBoolean runFlag = new AtomicBoolean(true);
 
-    private final Collection<Socket> clientMap = new ConcurrentLinkedQueue<Socket>();
+    private final Collection<Socket> clients = new ConcurrentLinkedQueue<Socket>();
     private final BlockingQueue<Message> messageQueue = new ArrayBlockingQueue<>(MESSAGE_QUEUE_SIZE);
 
     private Runnable disposeCallback;
@@ -82,7 +77,7 @@ public final class MessageSystemImpl implements MessageSystem {
         if (clientMap.containsKey(msClient.getName())) {
             throw new IllegalArgumentException("Error. client: " + msClient.getName() + " already exists");
         }*/
-        clientMap.add(msClient);
+        clients.add(msClient);
         //clientMap.put(msClient.getName(), msClient);
     }
 
@@ -121,7 +116,7 @@ public final class MessageSystemImpl implements MessageSystem {
                 if (msg == MessageBuilder.getVoidMessage()) {
                     logger.info("received the stop message");
                 } else {
-                    for (Socket clientTo : clientMap) {
+                    for (Socket clientTo : clients) {
                         //MsClient clientTo = socket;
 
                             msgHandler.submit(() -> handleMessage(clientTo, msg));

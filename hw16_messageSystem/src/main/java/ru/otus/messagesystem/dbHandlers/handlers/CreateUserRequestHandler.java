@@ -2,8 +2,8 @@ package ru.otus.messagesystem.dbHandlers.handlers;
 
 import org.hibernate.SessionFactory;
 import ru.otus.db.hibernate.cachehw.MyCache;
-import ru.otus.db.hibernate.core.model.Address;
-import ru.otus.db.hibernate.core.model.Phone;
+import ru.otus.domain.model.Address;
+import ru.otus.domain.model.Phone;
 import ru.otus.db.hibernate.core.model.User;
 import ru.otus.db.hibernate.hibernate.HibernateUtils;
 import ru.otus.db.hibernate.hibernate.sessionmanager.SessionManagerHibernate;

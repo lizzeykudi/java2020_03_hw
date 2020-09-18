@@ -1,6 +1,8 @@
 package ru.otus.sockets;
 
 
+import ru.otus.messagesystem.message.MessageHelper;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +14,7 @@ import java.util.function.Consumer;
 public class SocketClient {
     private static final int PORT = 8090;
     private static final String HOST = "localhost";
-    Socket clientSocket ;
+    Socket clientSocket;
     PrintWriter outputStream;
     BufferedReader in;
 
@@ -25,18 +27,15 @@ public class SocketClient {
     public SocketClient() {
         try {
             clientSocket = new Socket(HOST, PORT);
-                 outputStream = new PrintWriter(clientSocket.getOutputStream(), true);
+            outputStream = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                //for (int idx = 0; idx < 100; idx++) {
-                //String msg = String.format("##%d - I Believe", idx);
-
-
-            Thread thread = new Thread(){
-                public void run(){
+            Thread thread = new Thread() {
+                public void run() {
                     while (true) {
                         String read = read();
-                        readCallback.accept(read);
+                        if (read!=null&&!"".equals(read)) {
+                        readCallback.accept(read); }
                     }
                 }
             };
@@ -46,16 +45,10 @@ public class SocketClient {
         }
     }
 
-    public static void main(String[] args) {
-        String msg = String.format("##%d - I Believe", 0);
-        new SocketClient().go(msg);
-    }
-
-    public void go(String msg) {
+    public void send(String msg) {
         try {
-            System.out.println(String.format("sending to server: %s", msg));
             outputStream.println(msg);
-
+            System.out.println("Sent to server:" + msg);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -65,17 +58,17 @@ public class SocketClient {
 
     public String read() {
         try {
+            String responseMsg = "";
+            responseMsg = in.readLine();
 
-            String responseMsg = in.readLine();
-            System.out.println(String.format("server response: %s", responseMsg));
-            Thread.sleep(TimeUnit.SECONDS.toMillis(3));
-
-            System.out.println();
-            //}
+//            Thread.sleep(TimeUnit.SECONDS.toMillis(3));
 
             /*System.out.println("\nstop communication");
             outputStream.println("stop");*/
-            return responseMsg;
+            if (responseMsg!=null) {
+                System.out.println("Received from server: " + responseMsg);
+            return responseMsg; }
+            else {return "";}
         } catch (Exception ex) {
             ex.printStackTrace();
         }

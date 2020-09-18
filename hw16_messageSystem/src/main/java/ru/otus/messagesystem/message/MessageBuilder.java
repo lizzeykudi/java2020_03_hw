@@ -1,7 +1,7 @@
 package ru.otus.messagesystem.message;
 
-import ru.otus.messagesystem.client.CallbackId;
-import ru.otus.messagesystem.client.ResultDataType;
+import ru.otus.messagesystem.CallbackId;
+import ru.otus.messagesystem.ResultDataType;
 
 import java.util.UUID;
 

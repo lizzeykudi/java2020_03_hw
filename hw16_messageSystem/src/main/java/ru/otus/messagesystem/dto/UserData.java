@@ -1,6 +1,6 @@
 package ru.otus.messagesystem.dto;
 
-import ru.otus.messagesystem.client.ResultDataType;
+import ru.otus.messagesystem.ResultDataType;
 
 public class UserData extends ResultDataType {
     private final long userId;

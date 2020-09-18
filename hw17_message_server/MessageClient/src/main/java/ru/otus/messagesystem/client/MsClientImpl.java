@@ -3,8 +3,8 @@ package ru.otus.messagesystem.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.otus.messagesystem.HandlersStore;
-import ru.otus.messagesystem.MessageSystem;
 import ru.otus.messagesystem.RequestHandler;
+import ru.otus.messagesystem.ResultDataType;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageBuilder;
 import ru.otus.messagesystem.message.MessageHelper;
@@ -31,7 +31,7 @@ public class MsClientImpl implements MsClient {
     }
 
     private void handle(String s) {
-        this.handle(MessageHelper.deSerializeMessage(s.getBytes()));
+        this.handle(MessageHelper.deSerializeMessage(s));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class MsClientImpl implements MsClient {
     @Override
     public boolean sendMessage(Message msg) {
 
-        messageSystem.go(new String(MessageHelper.serializeMessage(msg)));
+        messageSystem.send(MessageHelper.serializeMessageToString(msg));
 
         return true;
     }
@@ -65,7 +65,7 @@ public class MsClientImpl implements MsClient {
 
     @Override
     public <T extends ResultDataType> Message produceMessage(String to, T data, MessageType msgType,
-                                                                MessageCallback<T> callback) {
+                                                             MessageCallback<T> callback) {
         Message message = MessageBuilder.buildMessage(name, to, null, data, msgType);
         callbackRegistry.put(message.getCallbackId(), callback);
         return message;

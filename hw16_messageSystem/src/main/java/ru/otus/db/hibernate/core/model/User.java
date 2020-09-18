@@ -1,6 +1,6 @@
 package ru.otus.db.hibernate.core.model;
 
-import ru.otus.messagesystem.client.ResultDataType;
+import ru.otus.messagesystem.ResultDataType;
 
 import javax.persistence.*;
 
