@@ -68,4 +68,11 @@
         </plugins>
     </build>
 
+    <modules>
+        <module>MessageServer</module>
+        <module>MessageClient</module>
+        <module>DBServer</module>
+        <module>Frontend</module>
+    </modules>
+
 </project>
