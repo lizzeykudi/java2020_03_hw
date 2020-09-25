@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class SocketClient {
-    private static final int PORT = 8090;
+    private static final int PORT = 8100;
     private static final String HOST = "localhost";
     Socket clientSocket;
     PrintWriter outputStream;

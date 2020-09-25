@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SocketServer {
-    private static final int PORT = 8090;
+    private static final int PORT = 8100;
 
     private final MessageSystem messageSystem;
     private final Map<Socket, PrintWriter> clientOutputs = new ConcurrentHashMap<>();

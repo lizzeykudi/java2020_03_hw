@@ -73,6 +73,7 @@
         <module>MessageClient</module>
         <module>DBServer</module>
         <module>Frontend</module>
+        <module>MessageSystemCommon</module>
     </modules>
 
 </project>
