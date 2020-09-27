@@ -22,6 +22,7 @@
         <module>hw11_cache</module>
         <module>hw15_executors</module>
       <module>hw16_messageSystem</module>
+        <module>Container</module>
     </modules>
 
 
