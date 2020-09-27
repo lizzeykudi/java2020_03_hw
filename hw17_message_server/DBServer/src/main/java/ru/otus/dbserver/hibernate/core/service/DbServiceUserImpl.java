@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class DbServiceUserImpl implements DBServiceUser {
-    private static Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
 
     private final UserDao userDao;
 
@@ -60,8 +60,6 @@ public class DbServiceUserImpl implements DBServiceUser {
         try (SessionManager sessionManager = userDao.getSessionManager()) {
             sessionManager.beginSession();
             try {
-
-                //logger.info("user: {}", userOptional.orElse(null));
                 return userDao.getAll();
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);

@@ -9,9 +9,12 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <groupId>ru.otus</groupId>
+    <artifactId>hw17_message_server</artifactId>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hw17_message_server</artifactId>
+
 
     <properties>
         <java.version>11</java.version>

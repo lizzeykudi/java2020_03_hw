@@ -1,6 +1,7 @@
 package ru.otus.frontend.controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,41 +22,26 @@ import ru.otus.sockets.SocketClient;
 @Controller
 public class UserController {
 
+
+    private final GetUserDataResponseHandler getUserDataResponseHandler;
+
     private final SimpMessagingTemplate template;
 
-    FrontendService frontendService ;
 
-    private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";
-    private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
+    private final HandlersStore requestHandlerFrontendStore;
 
-    public UserController(SimpMessagingTemplate template) {
+    private final FrontendService frontendService ;
+
+    @Autowired
+    public UserController(SimpMessagingTemplate template, GetUserDataResponseHandler getUserDataResponseHandler, HandlersStore requestHandlerFrontendStore, FrontendService frontendService) {
+        this.frontendService = frontendService;
+        this.getUserDataResponseHandler = getUserDataResponseHandler;
+        this.requestHandlerFrontendStore = requestHandlerFrontendStore;
         this.template = template;
-        init();
+
+        requestHandlerFrontendStore.addHandler(MessageType.USER_DATA, getUserDataResponseHandler);
+
     }
-
-  public void init() {
-      //MessageSystem messageSystem = new MessageSystemImpl();
-      SocketClient client = new SocketClient();
-      CallbackRegistry callbackRegistry = new CallbackRegistryImpl();
-
-      /*HandlersStore requestHandlerDatabaseStore = new HandlersStoreImpl();
-      requestHandlerDatabaseStore.addHandler(MessageType.USER_DATA, new GetUserDataRequestHandler(new DBServiceImpl()));
-      requestHandlerDatabaseStore.addHandler(MessageType.CREATE_USER, new CreateUserRequestHandler(new DBServiceImpl()));
-      MsClient databaseMsClient = new MsClientImpl(DATABASE_SERVICE_CLIENT_NAME,
-              client, requestHandlerDatabaseStore, callbackRegistry);
-      messageSystem.addClient(databaseMsClient);*/
-
-      HandlersStore requestHandlerFrontendStore = new HandlersStoreImpl();
-      requestHandlerFrontendStore.addHandler(MessageType.USER_DATA, new GetUserDataResponseHandler(callbackRegistry));
-
-      MsClient frontendMsClient = new MsClientImpl(FRONTEND_SERVICE_CLIENT_NAME,
-              client, requestHandlerFrontendStore, callbackRegistry);
-      frontendService = new FrontendServiceImpl(frontendMsClient, DATABASE_SERVICE_CLIENT_NAME);
-      //messageSystem.addClient(frontendMsClient);
-  }
-
-
-
 
     @MessageMapping("/add")
     @SendTo("/topic/greetings")
@@ -64,11 +50,6 @@ public class UserController {
 
         frontendService.create(user, responseUser -> this.template.convertAndSend("/topic/allUsers", responseUser));
 
-
-    }
-
-    //@Scheduled(fixedDelay = 1000)
-    public void broadcastCurrentTime() {
 
     }
 }

@@ -1,5 +1,6 @@
 package ru.otus.sockets;
 
+import org.springframework.stereotype.Component;
 import ru.otus.messagesystem.MessageSystem;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageHelper;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Component
 public class SocketServer {
     private static final int PORT = 8100;
 
@@ -26,7 +28,6 @@ public class SocketServer {
     }
 
     public void go() {
-        //DatagramSocket - UDP
         System.out.println("waiting for client connection");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             while (!Thread.currentThread().isInterrupted()) {
@@ -35,7 +36,7 @@ public class SocketServer {
                         System.out.println("Client connects");
                         messageSystem.addClient(clientSocket);
                         try (
-                                PrintWriter outputStream = new PrintWriter(clientSocket.getOutputStream(), true);
+                                PrintWriter outputStream = new PrintWriter(clientSocket.getOutputStream(), true)
                         ) {
                             clientOutputs.put(clientSocket, outputStream);
                             handleClientConnection(clientSocket);

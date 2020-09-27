@@ -1,5 +1,6 @@
 package ru.otus.frontend.messagesystem.front;
 
+import org.springframework.stereotype.Component;
 import ru.otus.domain.model.User;
 import ru.otus.messagesystem.client.MessageCallback;
 import ru.otus.messagesystem.client.MsClient;
@@ -7,15 +8,14 @@ import ru.otus.messagesystem.dto.UserData;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageType;
 
-
+@Component
 public class FrontendServiceImpl implements FrontendService {
 
     private final MsClient msClient;
-    private final String databaseServiceClientName;
+    private final String databaseServiceClientName = "databaseService";
 
-    public FrontendServiceImpl(MsClient msClient, String databaseServiceClientName) {
+    public FrontendServiceImpl(MsClient msClient) {
         this.msClient = msClient;
-        this.databaseServiceClientName = databaseServiceClientName;
     }
 
     @Override
@@ -30,7 +30,6 @@ public class FrontendServiceImpl implements FrontendService {
         Message outMsg = msClient.produceMessage(databaseServiceClientName, user,
                 MessageType.CREATE_USER, dataConsumer);
         msClient.sendMessage(outMsg);
-        //usersService.saveUser(user);
     }
 
 }

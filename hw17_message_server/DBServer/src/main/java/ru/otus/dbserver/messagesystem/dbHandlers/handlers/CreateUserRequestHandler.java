@@ -1,6 +1,7 @@
 package ru.otus.dbserver.messagesystem.dbHandlers.handlers;
 
 import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Component;
 import ru.otus.dbserver.hibernate.cachehw.MyCache;
 import ru.otus.dbserver.hibernate.hibernate.HibernateUtils;
 import ru.otus.dbserver.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
@@ -18,7 +19,7 @@ import ru.otus.messagesystem.message.MessageHelper;
 
 import java.util.Optional;
 
-
+@Component
 public class CreateUserRequestHandler implements RequestHandler<UserData> {
     private final DBService dbService;
 

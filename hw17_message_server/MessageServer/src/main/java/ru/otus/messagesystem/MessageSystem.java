@@ -7,7 +7,7 @@ import java.util.function.BiConsumer;
 
 public interface MessageSystem {
 
-    public void setMessageConsumer(BiConsumer<Socket, Message> messageConsumer);
+    void setMessageConsumer(BiConsumer<Socket, Message> messageConsumer);
 
     void addClient(Socket msClient);
 

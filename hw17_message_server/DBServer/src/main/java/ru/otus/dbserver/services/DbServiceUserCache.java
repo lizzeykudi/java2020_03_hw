@@ -11,11 +11,10 @@ import java.util.Optional;
 @Service
 public class DbServiceUserCache extends DbServiceUserImpl {
 
-    private HwCache<Long, User> cache;
+    private final HwCache<Long, User> cache;
     public DbServiceUserCache(UserDao userDao, HwCache<Long, User> cache) {
         super(userDao);
         this.cache = cache;
-        fillDB();
     }
 
     @Override
@@ -30,12 +29,5 @@ public class DbServiceUserCache extends DbServiceUserImpl {
         User user = cache.get(id);
         if (user!=null) {return Optional.of(user);}
         else {return super.getUser(id);}
-    }
-
-    private void fillDB() {
-        for (int i = 0; i < 10; i++) {
-            saveUser(new User(i, "" + i));
-        }
-
     }
 }

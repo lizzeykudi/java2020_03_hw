@@ -2,6 +2,7 @@ package ru.otus.messagesystem.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import ru.otus.messagesystem.HandlersStore;
 import ru.otus.messagesystem.RequestHandler;
 import ru.otus.messagesystem.ResultDataType;
@@ -12,6 +13,7 @@ import ru.otus.messagesystem.message.MessageType;
 import ru.otus.sockets.SocketClient;
 
 import java.util.Objects;
+
 
 public class MsClientImpl implements MsClient {
     private static final Logger logger = LoggerFactory.getLogger(MsClientImpl.class);

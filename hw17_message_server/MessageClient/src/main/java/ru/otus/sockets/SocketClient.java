@@ -12,19 +12,25 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class SocketClient {
-    private static final int PORT = 8100;
-    private static final String HOST = "localhost";
-    Socket clientSocket;
-    PrintWriter outputStream;
-    BufferedReader in;
+    private final int PORT;
+    private final String HOST;
+    private Socket clientSocket;
+    private PrintWriter outputStream;
+    private BufferedReader in;
 
-    Consumer<String> readCallback;
+    private Consumer<String> readCallback;
 
     public void setReadCallback(Consumer<String> readCallback) {
         this.readCallback = readCallback;
     }
 
-    public SocketClient() {
+    public SocketClient(int PORT, String HOST) {
+        this.PORT = PORT;
+        this.HOST = HOST;
+        this.init();
+    }
+
+    public void init() {
         try {
             clientSocket = new Socket(HOST, PORT);
             outputStream = new PrintWriter(clientSocket.getOutputStream(), true);
@@ -35,7 +41,7 @@ public class SocketClient {
                     while (true) {
                         String read = read();
                         if (read!=null&&!"".equals(read)) {
-                        readCallback.accept(read); }
+                            readCallback.accept(read); }
                     }
                 }
             };
@@ -60,11 +66,6 @@ public class SocketClient {
         try {
             String responseMsg = "";
             responseMsg = in.readLine();
-
-//            Thread.sleep(TimeUnit.SECONDS.toMillis(3));
-
-            /*System.out.println("\nstop communication");
-            outputStream.println("stop");*/
             if (responseMsg!=null) {
                 System.out.println("Received from server: " + responseMsg);
             return responseMsg; }

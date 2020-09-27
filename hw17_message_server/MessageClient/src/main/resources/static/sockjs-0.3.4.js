@@ -57,7 +57,7 @@ REventTarget.prototype.addEventListener = function (eventType, listener) {
     if(utils.arrIndexOf(arr, listener) === -1) {
         arr.push(listener);
     }
-    return;
+
 };
 
 REventTarget.prototype.removeEventListener = function (eventType, listener) {
@@ -74,7 +74,7 @@ REventTarget.prototype.removeEventListener = function (eventType, listener) {
         }
         return;
     }
-    return;
+
 };
 
 REventTarget.prototype.dispatchEvent = function (event) {
@@ -581,7 +581,7 @@ var trigger_unload_callbacks = function() {
     for(var ref in on_unload) {
         on_unload[ref]();
         delete on_unload[ref];
-    };
+    }
 };
 
 var unload_triggered = function() {
@@ -645,7 +645,7 @@ utils.createIframe = function (iframe_url, error_callback) {
             if (iframe && iframe.contentWindow) {
                 iframe.contentWindow.postMessage(msg, origin);
             }
-        } catch (x) {};
+        } catch (x) {}
     };
 
     iframe.src = iframe_url;
@@ -697,7 +697,7 @@ utils.createHtmlfile = function (iframe_url, error_callback) {
             if (iframe && iframe.contentWindow) {
                 iframe.contentWindow.postMessage(msg, origin);
             }
-        } catch (x) {};
+        } catch (x) {}
     };
 
     doc.open();
@@ -739,12 +739,12 @@ AbstractXHRObject.prototype._start = function(method, url, payload, opts) {
 
     try {
         that.xhr = new XMLHttpRequest();
-    } catch(x) {};
+    } catch(x) {}
 
     if (!that.xhr) {
         try {
             that.xhr = new _window.ActiveXObject('Microsoft.XMLHTTP');
-        } catch(x) {};
+        } catch(x) {}
     }
     if (_window.ActiveXObject || _window.XDomainRequest) {
         // IE8 caches even POSTs
@@ -761,7 +761,7 @@ AbstractXHRObject.prototype._start = function(method, url, payload, opts) {
         that.emit('finish', 0, '');
         that._cleanup();
         return;
-    };
+    }
 
     if (!opts || !opts.no_credentials) {
         // Mozilla docs says https://developer.mozilla.org/en/XMLHttpRequest :
@@ -784,7 +784,7 @@ AbstractXHRObject.prototype._start = function(method, url, payload, opts) {
                 try {
                     var status = x.status;
                     var text = x.responseText;
-                } catch (x) {};
+                } catch (x) {}
                 // IE returns 1223 for 204: http://bugs.jquery.com/ticket/1450
                 if (status === 1223) status = 204;
 
@@ -818,7 +818,7 @@ AbstractXHRObject.prototype._cleanup = function(abort) {
     if (abort) {
         try {
             that.xhr.abort();
-        } catch(x) {};
+        } catch(x) {}
     }
     that.unload_ref = that.xhr = null;
 };
@@ -893,7 +893,7 @@ XDRObject.prototype._cleanup = function(abort) {
     if (abort) {
         try {
             that.xdr.abort();
-        } catch(x) {};
+        } catch(x) {}
     }
     that.unload_ref = that.xdr = null;
 };
@@ -2017,7 +2017,7 @@ var createInfoReceiver = function(base_url) {
     default:
         // IE 7
         return new InfoReceiverFake();
-    };
+    }
 };
 
 

@@ -1,6 +1,7 @@
 # Message System
 ## Структура модуля
-* `hw17_message_server` - корневой модуль с общими классами данных
+* `hw17_message_server` - корневой модуль
+	* `MessageSystemCommon` - модуль с общими классами данных для Message System
 	* `MessageClient` - модуль с общими классами для клиентов Message System. Используется в реализациях клиентов - `Frontend` и `DBServer`
 	* `Frontend` - запускаемый модуль с веб-интерфейсом, клиент Message System
 	* `DBServer` - запускаемый модуль, реализующий работу с БД, клиент Message System
