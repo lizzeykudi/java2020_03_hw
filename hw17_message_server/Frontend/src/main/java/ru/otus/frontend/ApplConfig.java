@@ -20,7 +20,6 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 @EnableWebSocketMessageBroker
-@EnableScheduling
 @ComponentScan({"ru.otus.frontend", "ru.otus.messagesystem"})
 public class ApplConfig implements WebSocketMessageBrokerConfigurer {
     private static final String FRONTEND_SERVICE_CLIENT_NAME = "frontendService";

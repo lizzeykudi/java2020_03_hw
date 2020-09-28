@@ -12,9 +12,10 @@ import ru.otus.sockets.SocketServer;
 
 @Configuration
 @ComponentScan({"ru.otus.messagesystem", "ru.otus.sockets"})
+@SpringBootApplication
 public class MessageServerRunner {
     public static void main(String[] args) {
-
+        SpringApplication.run(MessageServerRunner.class, args);
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(MessageServerRunner.class);
         SocketServer socketServer = applicationContext.getBean(SocketServer.class);
         socketServer.go();

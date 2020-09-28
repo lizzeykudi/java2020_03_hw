@@ -4,6 +4,7 @@ import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.otus.dbserver.hibernate.cachehw.MyCache;
 import ru.otus.dbserver.hibernate.hibernate.HibernateUtils;
 import ru.otus.dbserver.hibernate.hibernate.sessionmanager.SessionManagerHibernate;
@@ -15,7 +16,7 @@ import ru.otus.domain.model.User;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class DBServiceImpl implements DBService {
 
     public DBServiceImpl(DbServiceUserCache usersService) {
