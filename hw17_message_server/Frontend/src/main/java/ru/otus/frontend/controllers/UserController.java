@@ -22,24 +22,17 @@ import ru.otus.sockets.SocketClient;
 @Controller
 public class UserController {
 
-
-    private final GetUserDataResponseHandler getUserDataResponseHandler;
-
     private final SimpMessagingTemplate template;
 
 
-    private final HandlersStore requestHandlerFrontendStore;
 
     private final FrontendService frontendService ;
 
     @Autowired
-    public UserController(SimpMessagingTemplate template, GetUserDataResponseHandler getUserDataResponseHandler, HandlersStore requestHandlerFrontendStore, FrontendService frontendService) {
+    public UserController(SimpMessagingTemplate template, FrontendService frontendService) {
         this.frontendService = frontendService;
-        this.getUserDataResponseHandler = getUserDataResponseHandler;
-        this.requestHandlerFrontendStore = requestHandlerFrontendStore;
         this.template = template;
 
-        requestHandlerFrontendStore.addHandler(MessageType.USER_DATA, getUserDataResponseHandler);
 
     }
 

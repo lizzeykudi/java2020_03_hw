@@ -1,9 +1,9 @@
 package ru.otus.sockets;
 
 import org.springframework.stereotype.Component;
-import ru.otus.messagesystem.MessageSystem;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageHelper;
+import ru.otus.messagesystem.server.MessageSystem;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

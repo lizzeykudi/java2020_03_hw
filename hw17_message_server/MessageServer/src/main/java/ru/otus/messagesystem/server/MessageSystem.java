@@ -1,4 +1,4 @@
-package ru.otus.messagesystem;
+package ru.otus.messagesystem.server;
 
 import ru.otus.messagesystem.message.Message;
 

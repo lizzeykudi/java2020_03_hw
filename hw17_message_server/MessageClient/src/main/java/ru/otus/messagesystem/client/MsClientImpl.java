@@ -52,16 +52,18 @@ public class MsClientImpl implements MsClient {
     @SuppressWarnings("all")
     @Override
     public void handle(Message msg) {
-        logger.info("new message:{}", msg);
-        try {
-            RequestHandler requestHandler = handlersStore.getHandlerByType(msg.getType());
-            if (requestHandler != null) {
-                requestHandler.handle(msg).ifPresent(message -> sendMessage((Message) message));
-            } else {
-                logger.error("handler not found for the message type:{}", msg.getType());
+        if(msg.getTo().equals(this.name)) {
+            logger.info("new message:{}", msg);
+            try {
+                RequestHandler requestHandler = handlersStore.getHandlerByType(msg.getType());
+                if (requestHandler != null) {
+                    requestHandler.handle(msg).ifPresent(message -> sendMessage((Message) message));
+                } else {
+                    logger.error("handler not found for the message type:{}", msg.getType());
+                }
+            } catch (Exception ex) {
+                logger.error("msg:{}", msg, ex);
             }
-        } catch (Exception ex) {
-            logger.error("msg:{}", msg, ex);
         }
     }
 

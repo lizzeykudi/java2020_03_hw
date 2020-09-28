@@ -2,20 +2,19 @@ package ru.otus.frontend.messagesystem.front.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.otus.domain.model.User;
 import ru.otus.messagesystem.RequestHandler;
 import ru.otus.messagesystem.ResultDataType;
 import ru.otus.messagesystem.client.CallbackRegistry;
 import ru.otus.messagesystem.client.MessageCallback;
-import ru.otus.messagesystem.dto.UserData;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageHelper;
 
 import java.util.Optional;
 
 @Component
-public class GetUserDataResponseHandler implements RequestHandler<UserData> {
+public class GetUserDataResponseHandler implements RequestHandler<User> {
     private static final Logger logger = LoggerFactory.getLogger(GetUserDataResponseHandler.class);
 
     private final CallbackRegistry callbackRegistry;

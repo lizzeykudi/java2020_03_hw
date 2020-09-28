@@ -1,6 +1,7 @@
 package ru.otus.dbserver;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,25 +13,34 @@ import ru.otus.domain.model.Address;
 import ru.otus.domain.model.Phone;
 import ru.otus.domain.model.User;
 import ru.otus.messagesystem.HandlersStore;
+import ru.otus.messagesystem.RequestHandler;
+import ru.otus.messagesystem.ResultDataType;
 import ru.otus.messagesystem.client.CallbackRegistry;
 import ru.otus.messagesystem.client.MsClient;
 import ru.otus.messagesystem.client.MsClientImpl;
+import ru.otus.messagesystem.message.MessageType;
 import ru.otus.sockets.SocketClient;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Configuration
-@EnableScheduling
 @ComponentScan(basePackages = {"ru.otus.dbserver", "ru.otus.messagesystem"})
 public class ApplConfig {
     private static final String DATABASE_SERVICE_CLIENT_NAME = "databaseService";
 
     @Bean
-    public SocketClient socketClient() {
-        return new SocketClient(8100, "localhost");
+    @Qualifier("handlers")
+    public Map<String, RequestHandler<? extends ResultDataType>> map(GetUserDataRequestHandler getUserDataRequestHandler, CreateUserRequestHandler createUserRequestHandler) {
+        Map<String, RequestHandler<? extends ResultDataType>> objectObjectConcurrentHashMap = new ConcurrentHashMap<>();
+        objectObjectConcurrentHashMap.put(MessageType.USER_DATA.getName(), getUserDataRequestHandler);
+        objectObjectConcurrentHashMap.put(MessageType.CREATE_USER.getName(), createUserRequestHandler);
+        return objectObjectConcurrentHashMap;
     }
 
     @Bean
-    public DbServerComponent dbServerComponent(HandlersStore requestHandlerDatabaseStore, GetUserDataRequestHandler getUserDataRequestHandler, CreateUserRequestHandler createUserRequestHandler) {
-        return new DbServerComponent(8100, "localhost", requestHandlerDatabaseStore, getUserDataRequestHandler, createUserRequestHandler);
+    public SocketClient socketClient() {
+        return new SocketClient(8100, "localhost");
     }
 
 
