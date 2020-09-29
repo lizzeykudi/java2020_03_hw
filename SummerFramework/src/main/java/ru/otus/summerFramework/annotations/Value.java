@@ -1,12 +1,12 @@
-package ru.otus.container.annotations;
+package ru.otus.summerFramework.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.METHOD})
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Scope {
-    String value() default "singleton";
+public @interface Value {
+    String value() default "";
 }

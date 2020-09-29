@@ -1,15 +1,10 @@
-package ru.otus.container.container;
+package ru.otus.summerFramework.summerFramework;
 
-import ru.otus.container.annotations.Bean;
-import ru.otus.container.annotations.Configurations;
-
-import java.util.*;
-
-public class Container {
+public class SummerFramework {
 
     private BeanFactory beanFactory = new BeanFactory();
 
-    public Container(Class<?> initialConfigClass) {
+    public SummerFramework(Class<?> initialConfigClass) {
         new BeanDefinitionReader(beanFactory).readBeanDefinition(initialConfigClass);
 
         beanFactory.createBeans();

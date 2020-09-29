@@ -1,4 +1,4 @@
-package ru.otus.container.container;
+package ru.otus.summerFramework.summerFramework;
 
 import java.util.ArrayList;
 import java.util.HashMap;

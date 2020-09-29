@@ -1,6 +1,6 @@
 package ru.otus.model;
 
-import ru.otus.container.container.BeanPostProcessor;
+import ru.otus.summerFramework.summerFramework.BeanPostProcessor;
 
 public class ExampleBeanPostPricessor implements BeanPostProcessor {
 

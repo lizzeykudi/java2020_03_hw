@@ -1,7 +1,7 @@
-package ru.otus.container.container;
+package ru.otus.summerFramework.summerFramework;
 
-import ru.otus.container.annotations.Bean;
-import ru.otus.container.annotations.Configurations;
+import ru.otus.summerFramework.annotations.Bean;
+import ru.otus.summerFramework.annotations.Configurations;
 
 import java.util.Arrays;
 import java.util.HashMap;

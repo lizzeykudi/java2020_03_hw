@@ -1,13 +1,12 @@
 package ru.otus;
 
-import ru.otus.container.container.Container;
+import ru.otus.summerFramework.summerFramework.SummerFramework;
 import ru.otus.config.AppConfig;
-import ru.otus.model.C;
 
 public class App {
 
     public static void main(String[] args) {
-        Container container = new Container(AppConfig.class);
+        SummerFramework container = new SummerFramework(AppConfig.class);
         //C c = container.getBean("c");
     }
 }

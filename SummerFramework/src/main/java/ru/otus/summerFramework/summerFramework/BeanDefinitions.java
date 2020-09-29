@@ -1,6 +1,6 @@
-package ru.otus.container.container;
+package ru.otus.summerFramework.summerFramework;
 
-import ru.otus.container.annotations.*;
+import ru.otus.summerFramework.annotations.*;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;

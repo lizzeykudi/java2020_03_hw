@@ -1,4 +1,4 @@
-package ru.otus.container.annotations;
+package ru.otus.summerFramework.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DependsOn {
-    String[] value() default {};
+public @interface Lazy {
 }

@@ -1,8 +1,7 @@
 package ru.otus.config;
 
-import ru.otus.container.annotations.*;
-import ru.otus.container.container.BeanPostProcessor;
-import ru.otus.container.container.InitializingBean;
+import ru.otus.summerFramework.annotations.*;
+import ru.otus.summerFramework.summerFramework.BeanPostProcessor;
 import ru.otus.model.*;
 
 @Configurations()

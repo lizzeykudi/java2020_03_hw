@@ -1,4 +1,4 @@
-package ru.otus.container.annotations;
+package ru.otus.summerFramework.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

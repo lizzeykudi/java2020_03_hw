@@ -1,6 +1,6 @@
 package ru.otus.model;
 
-import ru.otus.container.container.InitializingBean;
+import ru.otus.summerFramework.summerFramework.InitializingBean;
 
 public class ExampleInitializingBean implements InitializingBean {
 
