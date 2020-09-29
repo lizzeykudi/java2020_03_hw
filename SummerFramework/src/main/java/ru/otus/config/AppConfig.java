@@ -7,25 +7,24 @@ import ru.otus.model.*;
 @Configurations()
 public class AppConfig {
 
-    @Bean(name = "a")
+   /* @Bean(name = "a")
     @Scope("prototype")
     public A a() {
         return new A();
-    }
+    }*/
 
-    @Bean(name = "b")
+   /* @Bean(name = "b")
     @Lazy
     public B b(A a) {
         return new B(a);
-    }
+    }*/
 
     @Bean(name = "c")
-    @DependsOn({"a", "b"})
+    //@DependsOn({"a", "b"})
     public C c(@Value("value") String value) {
         return new C(value);
     }
-
-    @Bean(name = "implementation1")
+    /*@Bean(name = "implementation1")
     public Interface implementation1() {
         return new Implementation1();
     }
@@ -37,11 +36,12 @@ public class AppConfig {
 
     @Bean(name = "interfaceConsumer")
     @DependsOn({"implementation1", "implementation2"})
-    public InterfaceConsumer interfaceConsumer(@Qualifier("implementation1") Interface implementation) {
+    public InterfaceConsumer interfaceConsumer
+            (@Qualifier("implementation1") Interface implementation) {
         return new InterfaceConsumer(implementation);
-    }
+    }*/
 
-    @Bean(name = "exampleBeanPostPricessor")
+    /*@Bean(name = "exampleBeanPostPricessor")
     public BeanPostProcessor exampleBeanPostPricessor() {
         return new ExampleBeanPostPricessor();
     }
@@ -50,4 +50,4 @@ public class AppConfig {
     public ExampleInitializingBean exampleInitializingBean() {
         return new ExampleInitializingBean();
     }
-}
+*/}

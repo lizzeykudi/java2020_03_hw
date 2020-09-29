@@ -20,8 +20,13 @@ public class BeanRegistry {
     public void register(String beanName, Object bean) {
         beans.put(beanName, bean);
         List<Object> beansOfType = beansByType.get(bean.getClass());
-        if (beansOfType==null) {beansOfType = new ArrayList<>();}
-        beansOfType.add(bean.getClass());
+        if (beansOfType==null) {
+            beansOfType = new ArrayList<>();
+            beansOfType.add(bean);
+            beansByType.put(bean.getClass(), beansOfType);
+        } else {
+        beansOfType.add(bean);}
+
     }
 
     public <C> C getBean(Class<C> beanClass) {
