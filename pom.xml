@@ -21,8 +21,12 @@
         <module>hw09_orm</module>
         <module>hw11_cache</module>
         <module>hw15_executors</module>
-      <module>hw16_messageSystem</module>
+        <module>hw16_messageSystem</module>
+        <module>hw17_message_server</module>
         <module>Container</module>
+
+      
+
     </modules>
 
 

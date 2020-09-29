@@ -1,6 +1,6 @@
 package ru.otus.messagesystem.message;
 
-import ru.otus.messagesystem.client.CallbackId;
+import ru.otus.messagesystem.CallbackId;
 
 import java.io.Serializable;
 import java.util.Arrays;
