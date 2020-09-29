@@ -10,8 +10,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import ru.otus.db.hibernate.core.model.Address;
-import ru.otus.db.hibernate.core.model.Phone;
+import ru.otus.domain.model.Address;
+import ru.otus.domain.model.Phone;
 import ru.otus.db.hibernate.core.model.User;
 import ru.otus.db.hibernate.hibernate.HibernateUtils;
 

@@ -6,7 +6,7 @@ import ru.otus.messagesystem.dto.UserData;
 import ru.otus.messagesystem.RequestHandler;
 import ru.otus.messagesystem.client.CallbackRegistry;
 import ru.otus.messagesystem.client.MessageCallback;
-import ru.otus.messagesystem.client.ResultDataType;
+import ru.otus.messagesystem.ResultDataType;
 import ru.otus.messagesystem.message.Message;
 import ru.otus.messagesystem.message.MessageHelper;
 
